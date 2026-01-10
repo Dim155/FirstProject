@@ -48,3 +48,4 @@ def test_leave_parking(client, db_session, sample_data):
     assert response.status_code == 200
     updated_log = ClientParking.query.first()
     assert updated_log.time_out is not None
+

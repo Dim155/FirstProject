@@ -1,12 +1,15 @@
 import pytest
-from hw1.main.models import Client, Parking, ClientParking
+
+from hw1.main.models import Client, ClientParking, Parking
 
 
 @pytest.mark.parametrize("route", ["/clients", "/parkings"])
 def test_get_routes(client, route, sample_data):
     _, _ = sample_data
     response = client.get(route)
-    assert response.status_code == 200, f"Ошибка при получении маршрута {route}: {response.text}"
+    assert (
+        response.status_code == 200
+    ), f"Ошибка при получении маршрута {route}: {response.text}"
 
 
 def test_create_client(client, db_session):
@@ -18,7 +21,11 @@ def test_create_client(client, db_session):
 
 
 def test_create_parking(client, db_session):
-    payload = {"address": "ул. Пушкина, д. 5", "count_places": 15, "count_available_places": 15}
+    payload = {
+        "address": "ул. Пушкина, д. 5",
+        "count_places": 15,
+        "count_available_places": 15,
+    }
     response = client.post("/parkings", json=payload)
     assert response.status_code == 201
     created_parking = Parking.query.first()
